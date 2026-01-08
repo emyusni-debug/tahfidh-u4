@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tahfidh Al Qur'an - MIS Hidayatul Mubtadiin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a5f4a;
+            --primary-light: #2d8a6a;
+            --primary-dark: #0d3d2f;
+            --gold: #d4af37;
+            --bg-gradient: linear-gradient(135deg, #0d3d2f 0%, #1a5f4a 50%, #2d8a6a 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-dark: #1a1a2e;
+            --text-light: #ffffff;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            --shadow-light: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z' fill='%23d4af37'/%3E%3C/svg%3E");
+            background-size: 80px 80px;
+            animation: patternMove 20s linear infinite;
+        }
+
+        @keyframes patternMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-80px); }
+        }
+
+        .header {
+            background: linear-gradient(180deg, rgba(13, 61, 47, 0.98) 0%, rgba(26, 95, 74, 0.95) 100%);
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--gold);
+            animation: logoFloat 3s ease-in-out infinite, logoPulse 2s ease-in-out infinite alternate;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        @keyframes logoPulse {
+            0% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+            100% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.8); }
+        }
+
+        .logo-ring {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            animation: ringRotate 10s linear infinite;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+        }
+
+        @keyframes ringRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-family: 'Amiri', serif;
+            color: var(--gold);
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h2 {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+        }
+
+        .user-bar {
+            display: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .user-bar.active { display: flex; }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-size: 1rem;
+        }
+
+        .user-detail span {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .user-detail small {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .logout-btn-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logout-btn-header:hover {
+            transform: scale(1.05);
+        }
+
+        .login-page {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .login-container {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .login-option {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .login-option:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .login-option.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .login-option-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .login-option i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .login-option h3 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .login-option p {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .password-field {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-field input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .password-field input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .dashboard {
+            display: none;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 80px;
+        }
+
+        .dashboard.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-light);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            flex: 1;
+            min-width: fit-content;
+            padding: 12px 15px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tab-btn i { font-size: 1.2rem; }
+
+        .tab-btn.active {
+            background: var(--bg-gradient);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 15px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .class-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .class-btn {
+            padding: 15px 10px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .class-btn:hover { transform: scale(1.05); }
+
+        .class-btn.active {
+            background: var(--bg-gradient);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        .custom-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            margin-bottom: 15px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a5f4a'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 24px;
+        }
+
+        .custom-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .range-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .range-input {
+            flex: 1;
+            position: relative;
+        }
+
+        .range-input input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .range-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .range-label {
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: white;
+            padding: 0 5px;
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        .predikat-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .predikat-btn {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .predikat-btn i { font-size: 1.5rem; }
+        .predikat-btn span { font-size: 0.85rem; font-weight: 500; }
+
+        .predikat-btn.istimewa.active {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+            border-color: #ffd700;
+        }
+        .predikat-btn.istimewa i { color: #ff9500; }
+
+        .predikat-btn.bagus.active {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-color: #22c55e;
+            color: white;
+        }
+        .predikat-btn.bagus i { color: #22c55e; }
+
+        .predikat-btn.cukup.active {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            border-color: #3b82f6;
+            color: white;
+        }
+        .predikat-btn.cukup i { color: #3b82f6; }
+
+        .predikat-btn.mengulang.active {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+            border-color: #ef4444;
+            color: white;
+        }
+        .predikat-btn.mengulang i { color: #ef4444; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Audio Player */
+        .audio-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .audio-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .audio-item:hover {
+            box-shadow: var(--shadow-light);
+        }
+
+        .audio-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .audio-play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg-gradient);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .audio-play-btn:hover { transform: scale(1.1); }
+
+        .audio-play-btn.playing {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            animation: pulse 1s infinite;
+        }
+
+        .audio-play-btn.loading {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .audio-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .audio-info h4 {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .audio-info p {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .audio-controls {
+            margin-top: 12px;
+            display: none;
+        }
+
+        .audio-controls.active { display: block; }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .audio-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .audio-native {
+            width: 100%;
+            margin-top: 10px;
+            height: 40px;
+        }
+
+        .history-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .history-header select {
+            flex: 1;
+            min-width: 100px;
+            margin-bottom: 0;
+        }
+
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover { transform: scale(1.1); }
+        .icon-btn.refresh { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; }
+        .icon-btn.delete-all { background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); color: white; }
+        .icon-btn.export { background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); color: white; }
+
+        .history-list {
+            max-height: 55vh;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-content { flex: 1; min-width: 0; }
+
+        .history-row1 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .history-no {
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .history-nama {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-row2 {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+
+        .history-row2 .separator { color: #ccc; margin: 0 2px; }
+
+        .history-kelas {
+            background: #e8f5e9;
+            color: var(--primary);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .history-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .predikat-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .predikat-badge.istimewa { background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%); color: #333; }
+        .predikat-badge.bagus { background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); }
+        .predikat-badge.cukup { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); }
+        .predikat-badge.mengulang { background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); }
+
+        .delete-item-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: #fee2e2;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-item-btn:hover { background: #ef4444; color: white; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #bbf7d0;
+        }
+
+        .stat-card.gold { background: linear-gradient(135deg, #fefce8 0%, #fef08a 100%); border-color: #fde047; }
+        .stat-card.blue { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #93c5fd; }
+        .stat-card.red { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); border-color: #fca5a5; }
+
+        .stat-card i { font-size: 2rem; margin-bottom: 10px; }
+        .stat-card .stat-number { font-size: 2rem; font-weight: 700; }
+        .stat-card .stat-label { font-size: 0.85rem; color: #666; }
+
+        .officials-card {
+            background: linear-gradient(135deg, #1a5f4a 0%, #2d8a6a 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+        }
+
+        .official-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .official-item:last-child { margin-bottom: 0; }
+
+        .official-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .official-info h4 { font-size: 1rem; margin-bottom: 3px; }
+        .official-info p { font-size: 0.8rem; opacity: 0.8; }
+
+        .logout-card {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 2px solid #fca5a5;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .logout-card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .whatsapp-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .loading.active { display: flex; }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text { color: white; font-size: 0.9rem; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast.success { background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); }
+        .toast.error { background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state i { font-size: 4rem; color: #ddd; margin-bottom: 15px; }
+
+        .readonly-notice {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #92400e;
+        }
+
+        @media (max-width: 380px) {
+            .class-buttons { grid-template-columns: repeat(2, 1fr); }
+            .predikat-container { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .user-bar { flex-direction: column; text-align: center; }
+            .user-info { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Memproses...</div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-ring"></div>
+            <img src="https://iili.io/fXljUa1.png" alt="Logo" class="logo">
+        </div>
+        <h1>📖 Aplikasi Tahfidh Al-Qur'an</h1>
+        <h2>MIS HIDAYATUL MUBTADIIN</h2>
+        <p><i class="fas fa-map-marker-alt"></i> Undaan Kidul, Kudus</p>
+
+        <div class="user-bar" id="userBar">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar"><i class="fas fa-user"></i></div>
+                <div class="user-detail">
+                    <span id="userName">Guru Tahfidh</span>
+                    <small id="userRole">Akses Penuh</small>
+                </div>
+            </div>
+            <button class="logout-btn-header" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Keluar
+            </button>
+        </div>
+    </header>
+
+    <div class="login-page" id="loginPage">
+        <div class="login-container">
+            <h2 class="login-title"><i class="fas fa-user-lock"></i> Masuk Aplikasi</h2>
+            
+            <div class="login-option" id="guruOption" onclick="selectLoginOption('guru')">
+                <div class="login-option-header">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <div>
+                        <h3>Guru Tahfidh</h3>
+                        <p>Akses penuh untuk mengelola hafalan</p>
+                    </div>
+                </div>
+                <div class="password-field" id="passwordField">
+                    <div class="password-input-wrapper">
+                        <input type="password" id="passwordInput" placeholder="Masukkan password">
+                        <button type="button" class="toggle-password" onclick="togglePassword(event)">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-option" id="waliOption" onclick="selectLoginOption('wali')">
+                <div class="login-option-header">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3>Wali Murid</h3>
+                        <p>Melihat riwayat hafalan siswa</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="login-btn" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Masuk
+            </button>
+        </div>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="setor" onclick="switchTab('setor')">
+                    <i class="fas fa-book-open"></i><span>Setor</span>
+                </button>
+                <button class="tab-btn" data-tab="bimbingan" onclick="switchTab('bimbingan')">
+                    <i class="fas fa-headphones"></i><span>Audio</span>
+                </button>
+                <button class="tab-btn" data-tab="riwayat" onclick="switchTab('riwayat')">
+                    <i class="fas fa-history"></i><span>Riwayat</span>
+                </button>
+                <button class="tab-btn" data-tab="statistik" onclick="switchTab('statistik')">
+                    <i class="fas fa-chart-bar"></i><span>Statistik</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Setor -->
+        <div class="tab-content active" id="setor">
+            <div id="readonlyNotice" class="readonly-notice" style="display: none;">
+                <i class="fas fa-info-circle"></i>
+                <span>Mode Wali Murid - Hanya dapat melihat data</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fas fa-school"></i> Pilih Kelas</div>
+                <div class="class-buttons">
+                    <button class="class-btn" data-class="4A" onclick="selectClass('4A')">Kelas 4A</button>
+                    <button class="class-btn" data-class="4B" onclick="selectClass('4B')">Kelas 4B</button>
+                    <button class="class-btn" data-class="5A" onclick="selectClass('5A')">Kelas 5A</button>
+                    <button class="class-btn" data-class="5B" onclick="selectClass('5B')">Kelas 5B</button>
+                    <button class="class-btn" data-class="6A" onclick="selectClass('6A')">Kelas 6A</button>
+                    <button class="class-btn" data-class="6B" onclick="selectClass('6B')">Kelas 6B</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <select class="custom-select" id="studentSelect" disabled>
+                    <option value="">-- Pilih Siswa --</option>
+                </select>
+                <select class="custom-select" id="surahSelect">
+                    <option value="">-- Pilih Surah --</option>
+                </select>
+                <div class="range-container">
+                    <div class="range-input">
+                        <span class="range-label">Dari Ayat</span>
+                        <input type="number" id="ayatDari" min="1" placeholder="1">
+                    </div>
+                    <div class="range-input">
+                        <span class="range-label">Sampai Ayat</span>
+                        <input type="number" id="ayatSampai" min="1" placeholder="10">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fas fa-star"></i> Predikat Hafalan</div>
+                <div class="predikat-container">
+                    <button class="predikat-btn istimewa" data-predikat="Istimewa" onclick="selectPredikat('Istimewa')">
+                        <i class="fas fa-crown"></i><span>Istimewa</span>
+                    </button>
+                    <button class="predikat-btn bagus" data-predikat="Bagus" onclick="selectPredikat('Bagus')">
+                        <i class="fas fa-thumbs-up"></i><span>Bagus</span>
+                    </button>
+                    <button class="predikat-btn cukup" data-predikat="Cukup" onclick="selectPredikat('Cukup')">
+                        <i class="fas fa-check-circle"></i><span>Cukup</span>
+                    </button>
+                    <button class="predikat-btn mengulang" data-predikat="Mengulang" onclick="selectPredikat('Mengulang')">
+                        <i class="fas fa-redo"></i><span>Mengulang</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" onclick="submitSetoran()">
+                <i class="fas fa-paper-plane"></i> Kirim Setoran
+            </button>
+        </div>
+
+        <!-- Tab Audio -->
+        <div class="tab-content" id="bimbingan">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-quran"></i> Audio Murottal</div>
+                <p style="font-size: 0.8rem; color: #666; margin-bottom: 15px;">
+                    <i class="fas fa-volume-up"></i> Qari: Mishary Rashid Alafasy
+                </p>
+                <div class="audio-list" id="audioList"></div>
+            </div>
+        </div>
+
+        <!-- Tab Riwayat -->
+        <div class="tab-content" id="riwayat">
+            <div class="card">
+                <div class="history-header">
+                    <select class="custom-select" id="filterClass" onchange="filterHistory()" style="margin-bottom: 0;">
+                        <option value="">Semua Kelas</option>
+                        <option value="4A">Kelas 4A</option>
+                        <option value="4B">Kelas 4B</option>
+                        <option value="5A">Kelas 5A</option>
+                        <option value="5B">Kelas 5B</option>
+                        <option value="6A">Kelas 6A</option>
+                        <option value="6B">Kelas 6B</option>
+                    </select>
+                    <button class="icon-btn refresh" onclick="loadHistory()" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="icon-btn export" onclick="exportToExcel()" title="Export">
+                        <i class="fas fa-file-excel"></i>
+                    </button>
+                    <button class="icon-btn delete-all" id="deleteAllBtn" onclick="deleteAllHistory()" title="Hapus Semua">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Belum ada riwayat</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Statistik -->
+        <div class="tab-content" id="statistik">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-chart-pie"></i> Statistik Hafalan</div>
+                <div class="stats-grid">
+                    <div class="stat-card gold">
+                        <i class="fas fa-crown" style="color: #f59e0b;"></i>
+                        <div class="stat-number" id="statIstimewa">0</div>
+                        <div class="stat-label">Istimewa</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-thumbs-up" style="color: #22c55e;"></i>
+                        <div class="stat-number" id="statBagus">0</div>
+                        <div class="stat-label">Bagus</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <i class="fas fa-check-circle" style="color: #3b82f6;"></i>
+                        <div class="stat-number" id="statCukup">0</div>
+                        <div class="stat-label">Cukup</div>
+                    </div>
+                    <div class="stat-card red">
+                        <i class="fas fa-redo" style="color: #ef4444;"></i>
+                        <div class="stat-number" id="statMengulang">0</div>
+                        <div class="stat-label">Mengulang</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="text-align: center;">
+                    <i class="fas fa-book-reader" style="color: var(--primary); font-size: 2rem;"></i>
+                    <div class="stat-number" id="statTotal">0</div>
+                    <div class="stat-label">Total Setoran</div>
+                </div>
+            </div>
+
+            <div class="officials-card">
+                <div class="card-title" style="color: var(--gold);"><i class="fas fa-user-tie"></i> Pejabat Madrasah</div>
+                <div class="official-item">
+                    <div class="official-avatar"><i class="fas fa-user-graduate"></i></div>
+                    <div class="official-info">
+                        <h4>M. Arifi, S.Pd.I, M.Pd</h4>
+                        <p>Kepala Madrasah</p>
+                    </div>
+                </div>
+                <div class="official-item">
+                    <div class="official-avatar"><i class="fas fa-quran"></i></div>
+                    <div class="official-info">
+                        <h4>M. Yusni</h4>
+                        <p>Guru Tahfidh</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="logout-card">
+                <button class="logout-card-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Keluar Aplikasi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <a href="https://wa.me/6285176776403" target="_blank" class="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i> Hubungi Kami
+        </a>
+    </footer>
+
+    <script>
+        // ===================== KONFIGURASI =====================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4vmrHEzPZAob9dUJBaq9HDtrDNMFFoNkrhToLtW11_KAqfJ00FTiMzmMtMSr3Ipc/exec';
+        const GURU_PASSWORD = '1111444';
+        const LOCAL_STORAGE_KEY = 'tahfidh_history_data';
+
+        // ===================== DATA SISWA =====================
+        const students = {
+            '4A': [
+{ no: 1, nama: 'Abiyyu Abdu Mubarak' },
+{ no: 2, nama: 'Aditya Mahesa Putra Ibrahim' },
+{ no: 3, nama: 'Afan Setiawan' },
+{ no: 4, nama: 'Aisyah Agustina Yasmin' },
+{ no: 5, nama: 'Alif Anargya Nugroho' },
+{ no: 6, nama: 'Ashinta Nafisatuz Zahra' },
+{ no: 7, nama: 'Azkiya Lailatul Fajriyah' },
+{ no: 8, nama: 'Azzahra Asyila Rahma' },
+{ no: 9, nama: 'Bassama Ayla Husni' },
+{ no: 10, nama: 'Diyan Khofifatus Sa`Diyah' },
+{ no: 11, nama: 'Fathian Rafasya Fadhil' },
+{ no: 12, nama: 'Ghiyats' },
+{ no: 13, nama: 'Hamza Ibn Hassan' },
+{ no: 14, nama: 'La`La` Zahiruzzulfa' },
+{ no: 15, nama: 'Moh Chalibul Fawaid' },
+{ no: 16, nama: 'Muhammad Fatih Alkarim' },
+{ no: 17, nama: 'Muhammad Virza Irawan' },
+{ no: 18, nama: 'Muhammad Wildan Asyarif' },
+{ no: 19, nama: 'Muhammad Zikry Akromal' },
+{ no: 20, nama: 'Muhammad Zin Aqli Ilmi' },
+{ no: 21, nama: 'Raditya Naufal Darry Abiyyu' },
+{ no: 22, nama: 'Rahma Nadzifa Ramadani' },
+{ no: 23, nama: 'Raihana Yasmin Faiha' },
+{ no: 24, nama: 'Rijal Fadlurrohman Aldzaki' },
+{ no: 25, nama: 'Sumayya Sirril Chubba' },
+{ no: 26, nama: 'Zidan Nafi` Ilmi' },
+            ],
+            '4B': [
+{ no: 1, nama: 'Adzkia Samha Saufa' },
+{ no: 2, nama: 'Ahmad Labib Salman' },
+{ no: 3, nama: 'Ahmad Umar Al Faruq' },
+{ no: 4, nama: 'Amalia Husna Nadia' },
+{ no: 5, nama: 'Arfan Abdul Hafizh' },
+{ no: 6, nama: 'Arifin Farhan Raif' },
+{ no: 7, nama: 'Binta Khumairo' },
+{ no: 8, nama: 'Fauziyatur Rohmaniyah' },
+{ no: 9, nama: 'Firsta Ayudia Inara Afiqa' },
+{ no: 10, nama: 'Hasna Bint Hassan' },
+{ no: 11, nama: 'Indra Prasetiawan' },
+{ no: 12, nama: 'Kalysta Aprilia Anjani' },
+{ no: 13, nama: 'King Vicho' },
+{ no: 14, nama: 'Moh Azza Rowi Ramadani' },
+{ no: 15, nama: 'Moh Hirzul Fahmil Akbar' },
+{ no: 16, nama: 'Mohammad Denis Dzul Fahmi' },
+{ no: 17, nama: 'Muh Saif Aiham' },
+{ no: 18, nama: 'Muhammad Aflah Fandi Giofani' },
+{ no: 19, nama: 'Muhammad Arga Aryaguna' },
+{ no: 20, nama: 'Muhammad Bagus Sya`Roni' },
+{ no: 21, nama: 'Muhammad Mirza Chakim' },
+{ no: 22, nama: 'Niha Ainun Mahya' },
+{ no: 23, nama: 'Nuzulul Laili' },
+{ no: 24, nama: 'Raisya Elfreda' },
+{ no: 25, nama: 'Rayya Nashaima Afsheena' },
+{ no: 26, nama: 'Salisa Thalita Aulia' },
+            ],
+            '5A': [
+{ no: 1, nama: 'Ahmad Fahmi Maulana Hijaz' },
+{ no: 2, nama: 'Alfarid Zidan Nazruddin' },
+{ no: 3, nama: 'Arina Fifin Nafiati' },
+{ no: 4, nama: 'Azimatun Nikmah' },
+{ no: 5, nama: 'Dani Irsyad Ramadhani' },
+{ no: 6, nama: 'Delisa Maharani' },
+{ no: 7, nama: 'Difa Aulia Izzatunnisa' },
+{ no: 8, nama: 'Hilva Mazaya Mauha' },
+{ no: 9, nama: 'Intan Wulan Apriliani' },
+{ no: 10, nama: 'Keysha Sakura Anastasya' },
+{ no: 11, nama: 'Muh Syafiq Ibrahim' },
+{ no: 12, nama: 'Muhammad Anas Maula Shiddiq' },
+{ no: 13, nama: 'Muhammad Ardila Rizki' },
+{ no: 14, nama: 'Muhammad Bagas Setiawan' },
+{ no: 15, nama: 'Muhammad Bintang Pratama' },
+{ no: 16, nama: 'Muhammad Faza Maulana' },
+{ no: 17, nama: 'Muhammad Ilal Bahtiar' },
+{ no: 18, nama: 'Muhammad Khoirul Mahfudz' },
+{ no: 19, nama: 'Muhammad Naufal Faris Abyan' },
+{ no: 20, nama: 'Nur Aida Arifah Tara' },
+{ no: 21, nama: 'Thaniea Himawati' },
+{ no: 22, nama: 'Ummi Athiyyah' },
+{ no: 23, nama: 'Ziggy Zayyan Arkana' },
+            ],
+            '5B': [
+{ no: 1, nama: 'Abdul Basith' },
+{ no: 2, nama: 'Abdullah Asyfaq Nawawi' },
+{ no: 3, nama: 'Abid Aqilla Rajendra' },
+{ no: 4, nama: 'Afreza Dwi Saputra' },
+{ no: 5, nama: 'Anindita Keisha Azzahra' },
+{ no: 6, nama: 'Friska Dila Aulia' },
+{ no: 7, nama: 'Jemmy Rachad Nazzih' },
+{ no: 8, nama: 'Kinara Syaqila Anggraini' },
+{ no: 9, nama: 'Mirza Muhammad Afiq El Fath' },
+{ no: 10, nama: 'Moh Fauzus Salam' },
+{ no: 11, nama: 'Muhammad Azka Alvaro' },
+{ no: 12, nama: 'Muhammad Erlangga' },
+{ no: 13, nama: 'Muhammad Zidna Ilman' },
+{ no: 14, nama: 'Muhammad Zulfan Alfatir' },
+{ no: 15, nama: 'Nahwa Kamilatun Nisa' },
+{ no: 16, nama: 'Nilam Ainur Rohmah' },
+{ no: 17, nama: 'Nindia Ramadhani Safitri' },
+{ no: 18, nama: 'Nurin Najwa' },
+{ no: 19, nama: 'Rafa Aditya Putra' },
+{ no: 20, nama: 'Talita Indah Ayu Septiana' },
+{ no: 21, nama: 'Wildan Faza Aufar' },
+{ no: 22, nama: 'Zalfa Rahmuna Yasmin' },
+            ],
+            '6A': [
+{ no: 1, nama: 'Abdullah Fatir Ibrahim' },
+{ no: 2, nama: 'Arfaa Aizzatul Ramadhani' },
+{ no: 3, nama: 'Ayunda Qurrota A`Yun' },
+{ no: 4, nama: 'Azkiya Azzahwa' },
+{ no: 5, nama: 'Daffa Ibnu Hafidz' },
+{ no: 6, nama: 'Fatihatul Husniya' },
+{ no: 7, nama: 'Hania Syakira Assyafii' },
+{ no: 8, nama: 'Ihda Alya Lathifa' },
+{ no: 9, nama: 'Kanaya Afka Uliyani' },
+{ no: 10, nama: 'Lathif Akmal `Azzam' },
+{ no: 11, nama: 'Moh Adam Al Assegaf' },
+{ no: 12, nama: 'Moh Zaiyani Syarif' },
+{ no: 13, nama: 'Muh Althof Adabi' },
+{ no: 14, nama: 'Muhammad Habibur Rohman' },
+{ no: 15, nama: 'Muhammad Khoirul Mannan' },
+{ no: 16, nama: 'Raihan Izzuddin' },
+{ no: 17, nama: 'Salwa Khuzama' },
+{ no: 18, nama: 'Savira Putri Mahira' },
+{ no: 19, nama: 'Septian Norsa Amarta' },
+{ no: 20, nama: 'Zaida Ilmania Ramadhani' },
+            ],
+            '6B': [
+{ no: 1, nama: 'Afwan Maulana Azidan' },
+{ no: 2, nama: 'Ahmad Ilzam Hannan' },
+{ no: 3, nama: 'Ahmad Najwa Zacky' },
+{ no: 4, nama: 'Alisia Azzahro' },
+{ no: 5, nama: 'Atika Balqis Khalisa' },
+{ no: 6, nama: 'Azka Syauqi Assyarif' },
+{ no: 7, nama: 'Friska Aulia Mufida' },
+{ no: 8, nama: 'Kaisa Bela Annisa' },
+{ no: 9, nama: 'Latifa Anfa Fauzya' },
+{ no: 10, nama: 'Moh Eka Muslikhin Harfifudin' },
+{ no: 11, nama: 'Moh Jauharul Fanani' },
+{ no: 12, nama: 'Muhammad Haikal Kamal Syukron' },
+{ no: 13, nama: 'Muhammad Iqbal Maulana' },
+{ no: 14, nama: 'Muhammad Surya Aqila Prasetyo' },
+{ no: 15, nama: 'Nabila Safiqoh' },
+{ no: 16, nama: 'Naila Amiratun Nabila' },
+{ no: 17, nama: 'Najwa Khaira Wilda' },
+{ no: 18, nama: 'Naysa Rahmania Putri' },
+{ no: 19, nama: 'Shifa Aulia Alissa' },
+            ]
+        };
+
+        // ===================== DATA SURAH =====================
+        const surahs = [
+            { no: 2, nama: 'Al-Baqarah', ayat: 286 },
+            { no: 36, nama: 'Yasin', ayat: 83 },
+            { no: 56, nama: 'Al-Waqi\'ah', ayat: 96 },
+            { no: 67, nama: 'Al-Mulk', ayat: 30 },
+            { no: 78, nama: 'An-Naba\'', ayat: 40 },
+            { no: 79, nama: 'An-Nazi\'at', ayat: 46 },
+            { no: 80, nama: '\'Abasa', ayat: 42 },
+            { no: 81, nama: 'At-Takwir', ayat: 29 },
+            { no: 82, nama: 'Al-Infitar', ayat: 19 },
+            { no: 83, nama: 'Al-Mutaffifin', ayat: 36 },
+            { no: 84, nama: 'Al-Insyiqaq', ayat: 25 },
+            { no: 85, nama: 'Al-Buruj', ayat: 22 },
+            { no: 86, nama: 'At-Tariq', ayat: 17 },
+            { no: 87, nama: 'Al-A\'la', ayat: 19 },
+            { no: 88, nama: 'Al-Gasyiyah', ayat: 26 },
+            { no: 89, nama: 'Al-Fajr', ayat: 30 },
+            { no: 90, nama: 'Al-Balad', ayat: 20 },
+            { no: 91, nama: 'Asy-Syams', ayat: 15 },
+            { no: 92, nama: 'Al-Lail', ayat: 21 },
+            { no: 93, nama: 'Ad-Duha', ayat: 11 },
+            { no: 94, nama: 'Asy-Syarh', ayat: 8 },
+            { no: 95, nama: 'At-Tin', ayat: 8 },
+            { no: 96, nama: 'Al-\'Alaq', ayat: 19 },
+            { no: 97, nama: 'Al-Qadr', ayat: 5 },
+            { no: 98, nama: 'Al-Bayyinah', ayat: 8 },
+            { no: 99, nama: 'Az-Zalzalah', ayat: 8 },
+            { no: 100, nama: 'Al-\'Adiyat', ayat: 11 },
+            { no: 101, nama: 'Al-Qari\'ah', ayat: 11 },
+            { no: 102, nama: 'At-Takasur', ayat: 8 },
+            { no: 103, nama: 'Al-\'Asr', ayat: 3 },
+            { no: 104, nama: 'Al-Humazah', ayat: 9 },
+            { no: 105, nama: 'Al-Fil', ayat: 5 },
+            { no: 106, nama: 'Quraisy', ayat: 4 },
+            { no: 107, nama: 'Al-Ma\'un', ayat: 7 },
+            { no: 108, nama: 'Al-Kausar', ayat: 3 },
+            { no: 109, nama: 'Al-Kafirun', ayat: 6 },
+            { no: 110, nama: 'An-Nasr', ayat: 3 },
+            { no: 111, nama: 'Al-Lahab', ayat: 5 },
+            { no: 112, nama: 'Al-Ikhlas', ayat: 4 },
+            { no: 113, nama: 'Al-Falaq', ayat: 5 },
+            { no: 114, nama: 'An-Nas', ayat: 6 }
+        ];
+
+        // ===================== STATE =====================
+        let currentUser = null;
+        let selectedClass = null;
+        let selectedPredikat = null;
+        let historyData = [];
+
+        // ===================== INISIALISASI =====================
+        document.addEventListener('DOMContentLoaded', () => {
+            initSurahSelect();
+            initAudioList();
+            loadLocalHistory();
+            checkSession();
+        });
+
+        function checkSession() {
+            const session = localStorage.getItem('tahfidhSession');
+            if (session) {
+                currentUser = JSON.parse(session);
+                showDashboard();
+            }
+        }
+
+        function initSurahSelect() {
+            const select = document.getElementById('surahSelect');
+            surahs.forEach(surah => {
+                const option = document.createElement('option');
+                option.value = `${surah.no}|${surah.nama}|${surah.ayat}`;
+                option.textContent = `${surah.no}. ${surah.nama} (${surah.ayat} ayat)`;
+                select.appendChild(option);
+            });
+        }
+
+        // ===================== AUDIO PLAYER - MENGGUNAKAN NATIVE AUDIO =====================
+        function initAudioList() {
+            const audioList = document.getElementById('audioList');
+            const audioSurahs = surahs.filter(s => s.no >= 78 || [36, 56, 67].includes(s.no));
+            
+            audioSurahs.forEach(surah => {
+                const surahPadded = surah.no.toString().padStart(3, '0');
+                
+                // Menggunakan server yang reliable - Mishary Alafasy
+                const audioUrl = `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${surahPadded}.mp3`;
+                
+                const item = document.createElement('div');
+                item.className = 'audio-item';
+                item.innerHTML = `
+                    <div class="audio-header">
+                        <button class="audio-play-btn" id="play-btn-${surah.no}">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <div class="audio-info">
+                            <h4>${surah.no}. ${surah.nama}</h4>
+                            <p>${surah.ayat} Ayat</p>
+                        </div>
+                    </div>
+                    <div class="audio-controls" id="controls-${surah.no}">
+                        <audio 
+                            id="audio-${surah.no}" 
+                            src="${audioUrl}"
+                            preload="none"
+                            controlsList="nodownload"
+                            class="audio-native"
+                            controls
+                        ></audio>
+                    </div>
+                `;
+                
+                audioList.appendChild(item);
+                
+                // Event listeners
+                const playBtn = item.querySelector(`#play-btn-${surah.no}`);
+                const audioElement = item.querySelector(`#audio-${surah.no}`);
+                const controls = item.querySelector(`#controls-${surah.no}`);
+                
+                playBtn.addEventListener('click', () => {
+                    // Toggle controls visibility
+                    const isVisible = controls.classList.contains('active');
+                    
+                    // Hide all other controls
+                    document.querySelectorAll('.audio-controls').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.audio-play-btn').forEach(b => {
+                        b.classList.remove('playing');
+                        b.innerHTML = '<i class="fas fa-play"></i>';
+                    });
+                    
+                    // Pause all other audio
+                    document.querySelectorAll('audio').forEach(a => {
+                        if (a !== audioElement) a.pause();
+                    });
+                    
+                    if (!isVisible) {
+                        controls.classList.add('active');
+                        playBtn.classList.add('playing');
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        audioElement.play().catch(e => {
+                            showToast('Memuat audio...', '');
+                        });
+                    } else {
+                        audioElement.pause();
+                    }
+                });
+                
+                audioElement.addEventListener('play', () => {
+                    playBtn.classList.add('playing');
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                });
+                
+                audioElement.addEventListener('pause', () => {
+                    playBtn.classList.remove('playing');
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+                
+                audioElement.addEventListener('ended', () => {
+                    playBtn.classList.remove('playing');
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+
+                audioElement.addEventListener('error', () => {
+                    showToast('Gagal memuat audio', 'error');
+                });
+            });
+        }
+
+        // ===================== LOGIN =====================
+        function selectLoginOption(type) {
+            document.querySelectorAll('.login-option').forEach(opt => opt.classList.remove('active'));
+            
+            if (type === 'guru') {
+                document.getElementById('guruOption').classList.add('active');
+                document.getElementById('passwordField').style.display = 'block';
+            } else {
+                document.getElementById('waliOption').classList.add('active');
+                document.getElementById('passwordField').style.display = 'none';
+            }
+            
+            currentUser = { type };
+        }
+
+        function togglePassword(e) {
+            e.stopPropagation();
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('eyeIcon');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        function login() {
+            if (!currentUser) {
+                showToast('Pilih jenis pengguna', 'error');
+                return;
+            }
+
+            if (currentUser.type === 'guru') {
+                const password = document.getElementById('passwordInput').value;
+                if (password !== GURU_PASSWORD) {
+                    showToast('Password salah!', 'error');
+                    return;
+                }
+            }
+
+            localStorage.setItem('tahfidhSession', JSON.stringify(currentUser));
+            showDashboard();
+            showToast('Berhasil masuk!', 'success');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+            document.getElementById('userBar').classList.add('active');
+            
+            if (currentUser.type === 'wali') {
+                document.getElementById('readonlyNotice').style.display = 'flex';
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('deleteAllBtn').style.display = 'none';
+                document.getElementById('userAvatar').innerHTML = '<i class="fas fa-users"></i>';
+                document.getElementById('userName').textContent = 'Wali Murid';
+                document.getElementById('userRole').textContent = 'Mode Lihat';
+            } else {
+                document.getElementById('readonlyNotice').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'flex';
+                document.getElementById('deleteAllBtn').style.display = 'flex';
+                document.getElementById('userAvatar').innerHTML = '<i class="fas fa-chalkboard-teacher"></i>';
+                document.getElementById('userName').textContent = 'Guru Tahfidh';
+                document.getElementById('userRole').textContent = 'Akses Penuh';
+            }
+            
+            loadHistory();
+        }
+
+        function logout() {
+            if (!confirm('Keluar dari aplikasi?')) return;
+            
+            // Stop all audio
+            document.querySelectorAll('audio').forEach(a => a.pause());
+            
+            localStorage.removeItem('tahfidhSession');
+            currentUser = null;
+            selectedClass = null;
+            selectedPredikat = null;
+            
+            document.getElementById('userBar').classList.remove('active');
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordField').style.display = 'none';
+            document.querySelectorAll('.login-option').forEach(opt => opt.classList.remove('active'));
+            
+            switchTab('setor');
+            showToast('Berhasil keluar', 'success');
+        }
+
+        // ===================== TAB =====================
+        function switchTab(tabName) {
+            // Stop all audio when switching tabs
+            document.querySelectorAll('audio').forEach(a => a.pause());
+            document.querySelectorAll('.audio-controls').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.audio-play-btn').forEach(b => {
+                b.classList.remove('playing');
+                b.innerHTML = '<i class="fas fa-play"></i>';
+            });
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'riwayat' || tabName === 'statistik') {
+                loadHistory();
+            }
+        }
+
+        // ===================== PILIH KELAS =====================
+        function selectClass(className) {
+            selectedClass = className;
+            document.querySelectorAll('.class-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-class="${className}"]`).classList.add('active');
+            
+            const studentSelect = document.getElementById('studentSelect');
+            studentSelect.innerHTML = '<option value="">-- Pilih Siswa --</option>';
+            studentSelect.disabled = false;
+            
+            students[className].forEach(student => {
+                const option = document.createElement('option');
+                option.value = `${student.no}|${student.nama}`;
+                option.textContent = `${student.no}. ${student.nama}`;
+                studentSelect.appendChild(option);
+            });
+        }
+
+        // ===================== PILIH PREDIKAT =====================
+        function selectPredikat(predikat) {
+            selectedPredikat = predikat;
+            document.querySelectorAll('.predikat-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-predikat="${predikat}"]`).classList.add('active');
+        }
+
+        // ===================== KIRIM SETORAN =====================
+        async function submitSetoran() {
+            if (currentUser.type === 'wali') {
+                showToast('Anda tidak memiliki akses', 'error');
+                return;
+            }
+
+            const studentValue = document.getElementById('studentSelect').value;
+            const surahValue = document.getElementById('surahSelect').value;
+            const ayatDari = document.getElementById('ayatDari').value;
+            const ayatSampai = document.getElementById('ayatSampai').value;
+
+            if (!selectedClass) return showToast('Pilih kelas!', 'error');
+            if (!studentValue) return showToast('Pilih siswa!', 'error');
+            if (!surahValue) return showToast('Pilih surah!', 'error');
+            if (!ayatDari || !ayatSampai) return showToast('Isi rentang ayat!', 'error');
+            if (!selectedPredikat) return showToast('Pilih predikat!', 'error');
+
+            const [noAbsen, namaSiswa] = studentValue.split('|');
+            const [noSurah, namaSurah] = surahValue.split('|');
+
+            const now = new Date();
+            const tanggal = now.toLocaleDateString('id-ID', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+            const waktu = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const data = {
+                id: Date.now().toString(),
+                kelas: selectedClass,
+                noAbsen: parseInt(noAbsen),
+                nama: namaSiswa,
+                noSurah: parseInt(noSurah),
+                surah: namaSurah,
+                ayatDari: parseInt(ayatDari),
+                ayatSampai: parseInt(ayatSampai),
+                predikat: selectedPredikat,
+                tanggal, waktu
+            };
+
+            showLoading(true, 'Mengirim...');
+
+            try {
+                const params = new URLSearchParams(data);
+                params.append('action', 'create');
+                await fetch(`${SCRIPT_URL}?${params}`, { method: 'GET', mode: 'no-cors' });
+                saveToLocalHistory(data);
+                showToast('Berhasil dikirim!', 'success');
+                resetForm();
+                setTimeout(() => loadHistory(), 1000);
+            } catch (error) {
+                saveToLocalHistory(data);
+                showToast('Tersimpan lokal', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function resetForm() {
+            selectedClass = null;
+            selectedPredikat = null;
+            document.querySelectorAll('.class-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.predikat-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('studentSelect').innerHTML = '<option value="">-- Pilih Siswa --</option>';
+            document.getElementById('studentSelect').disabled = true;
+            document.getElementById('surahSelect').value = '';
+            document.getElementById('ayatDari').value = '';
+            document.getElementById('ayatSampai').value = '';
+        }
+
+        // ===================== LOCAL STORAGE =====================
+        function saveToLocalHistory(data) {
+            let localData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]');
+            localData.unshift(data);
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localData));
+            historyData = localData;
+        }
+
+        function loadLocalHistory() {
+            historyData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]');
+        }
+
+        // ===================== HISTORY =====================
+        async function loadHistory() {
+            showLoading(true, 'Memuat...');
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=read&t=${Date.now()}`);
+                const result = await response.json();
+                if (result.status === 'success' && result.data?.length > 0) {
+                    historyData = result.data;
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(historyData));
+                } else {
+                    loadLocalHistory();
+                }
+            } catch (error) {
+                loadLocalHistory();
+            } finally {
+                filterHistory();
+                updateStats();
+                showLoading(false);
+            }
+        }
+
+        function filterHistory() {
+            const filterClass = document.getElementById('filterClass').value;
+            const filtered = filterClass ? historyData.filter(item => item.kelas === filterClass) : historyData;
+            renderHistory(filtered);
+        }
+
+        function renderHistory(data) {
+            const container = document.getElementById('historyList');
+            if (!data?.length) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><h3>Belum ada riwayat</h3></div>';
+                return;
+            }
+
+            const isGuru = currentUser?.type === 'guru';
+            container.innerHTML = data.map(item => `
+                <div class="history-item">
+                    <div class="history-content">
+                        <div class="history-row1">
+                            <span class="history-no">${item.noAbsen || '-'}</span>
+                            <span class="history-nama">${item.nama || '-'}</span>
+                        </div>
+                        <div class="history-row2">
+                            <span class="history-kelas">${item.kelas || '-'}</span>
+                            <span class="separator">|</span>
+                            <span>${item.surah || '-'} : ${item.ayatDari || '-'} - ${item.ayatSampai || '-'}</span>
+                            <span class="separator">|</span>
+                            <span>${item.tanggal || '-'}</span>
+                        </div>
+                    </div>
+                    <div class="history-right">
+                        <span class="predikat-badge ${(item.predikat || '').toLowerCase()}">${item.predikat || '-'}</span>
+                        ${isGuru ? `<button class="delete-item-btn" onclick="deleteHistoryItem('${item.id}')"><i class="fas fa-times"></i></button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteHistoryItem(id) {
+            if (!confirm('Hapus data ini?')) return;
+            showLoading(true, 'Menghapus...');
+            try {
+                await fetch(`${SCRIPT_URL}?action=delete&id=${id}`, { method: 'GET', mode: 'no-cors' });
+            } catch (e) {}
+            historyData = historyData.filter(item => item.id !== id);
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(historyData));
+            filterHistory();
+            updateStats();
+            showLoading(false);
+            showToast('Dihapus', 'success');
+        }
+
+        async function deleteAllHistory() {
+            if (!confirm('Hapus SEMUA data?')) return;
+            showLoading(true, 'Menghapus...');
+            try {
+                await fetch(`${SCRIPT_URL}?action=deleteAll`, { method: 'GET', mode: 'no-cors' });
+            } catch (e) {}
+            historyData = [];
+            localStorage.setItem(LOCAL_STORAGE_KEY, '[]');
+            filterHistory();
+            updateStats();
+            showLoading(false);
+            showToast('Semua dihapus', 'success');
+        }
+
+        function updateStats() {
+            document.getElementById('statIstimewa').textContent = historyData.filter(d => d.predikat === 'Istimewa').length;
+            document.getElementById('statBagus').textContent = historyData.filter(d => d.predikat === 'Bagus').length;
+            document.getElementById('statCukup').textContent = historyData.filter(d => d.predikat === 'Cukup').length;
+            document.getElementById('statMengulang').textContent = historyData.filter(d => d.predikat === 'Mengulang').length;
+            document.getElementById('statTotal').textContent = historyData.length;
+        }
+
+        function exportToExcel() {
+            if (!historyData.length) return showToast('Tidak ada data', 'error');
+            let csv = '\uFEFF' + 'No,Kelas,No Absen,Nama,Surah,Dari,Sampai,Predikat,Tanggal,Waktu\n';
+            historyData.forEach((item, i) => {
+                csv += `${i+1},"${item.kelas}",${item.noAbsen},"${item.nama}","${item.surah}",${item.ayatDari},${item.ayatSampai},"${item.predikat}","${item.tanggal}","${item.waktu}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Riwayat_Tahfidh.csv`;
+            link.click();
+            showToast('File diunduh', 'success');
+        }
+
+        function showLoading(show, text = 'Memproses...') {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loading').classList.toggle('active', show);
+        }
+
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
